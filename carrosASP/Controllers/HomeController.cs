@@ -2,8 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
+using Microsoft.AspNetCore.Authorization;
+
+
+
 namespace carrosASP.Controllers
 {
+
+
+    [Authorize] //solo los usuarios autenticados pueden acceder a esta pagina
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,6 +24,27 @@ namespace carrosASP.Controllers
         {
             return View();
         }
+
+        public IActionResult Venta()
+        {
+            return View();
+        }
+
+
+
+        public IActionResult Compras()
+        {
+            return View();
+        }
+
+
+        [Authorize(Roles ="Administrador")]
+        public IActionResult Renta()
+        {
+            return View();
+        }
+
+
 
         public IActionResult Privacy()
         {

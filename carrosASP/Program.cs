@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace carrosASP
 {
     public class Program
@@ -8,6 +10,16 @@ namespace carrosASP
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(option =>
+                {
+                    
+                    option.LoginPath = "/Acceso/Index";
+                    option.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+                    option.AccessDeniedPath = "/Home/Privacy";
+                });
 
             var app = builder.Build();
 
@@ -24,11 +36,13 @@ namespace carrosASP
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Acceso}/{action=Index}/{id?}");
 
             app.Run();
         }
